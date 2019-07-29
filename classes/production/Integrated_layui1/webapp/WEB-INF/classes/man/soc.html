@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>layui</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="../lib/layui/css/layui.css"  media="all">
+    <link rel="stylesheet" href="../lib/font-awesome/css/font-awesome.css">
+     	<script src="../lib/jQuery/jquery.min.js"></script>
+  <script src="../lib/layui/layui.js" charset="utf-8"></script>
+ 
+</head>
+ <style type="text/css">
+html,body{
+margin:0px;
+height:100%;
+} 
+
+
+</style>
+<body>
+ <div style=" height:100%; overflow:auto;">
+ <!--面包屑导航区域-->
+   <span class="layui-breadcrumb">
+  <a><cite>首页</cite></a>
+  <a><cite>用户管理</cite></a>
+  <a><cite>用户统计</cite></a>
+</span>
+<hr>
+ <table class="layui-hide" id="test" lay-filter="test"></table>
+ 
+ 
+ <!--模仿bootstrap的模态框（添加）-->
+<div id="motaikunag" style="display: none;"    class="layui-row">
+    <form class="layui-form" action="" method="get" id="addUsersForm">
+  <div class="layui-form-item">
+    <label class="layui-form-label">姓名</label>
+    <div class="layui-input-inline">
+      <input type="text" id = "username" name="username" required  lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+    </div>
+    <label class="layui-form-label">密码</label>
+    <div class="layui-input-inline">
+      <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">城市</label>
+    <div class="layui-input-inline">
+      <select name="city" lay-verify="required" id="city">
+        <option value=""></option>
+        <option value="0">北京</option>
+        <option value="1">上海</option>
+        <option value="2">广州</option>
+        <option value="3">深圳</option>
+        <option value="4">杭州</option>
+      </select>
+    </div>
+     <label class="layui-form-label">邮箱</label>
+    <div class="layui-input-inline">
+      <input type="text" id="email"  name="email" required  lay-verify="email" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">爱好</label>
+    <div class="layui-input-block">
+      <input type="checkbox" name="like[write]" title="写作">
+      <input type="checkbox" name="like[read]" title="阅读" checked>
+      <input type="checkbox" name="like[dai]" title="发呆">
+    </div>
+    </div>
+ 
+  <div class="layui-form-item">
+    <label class="layui-form-label">开关</label>
+    <div class="layui-input-block">
+      <input type="checkbox" name="state" lay-skin="switch"   lay-text="开启|禁用">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">单选框</label>
+    <div class="layui-input-block" id= "IsPurchased">
+      <input type="radio" name="sex" value="1" title="男">
+      <input type="radio" name="sex" value="0" title="女" checked>
+    </div>
+  </div>
+  <div class="layui-form-item ">
+    <label class="layui-form-label">签名</label>
+    <div class="layui-input-block">
+      <textarea class="layui-textarea" name="sign" id="sign"  style="display: none" placeholder="请输入内容">  
+		</textarea>
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <div class="layui-input-block">
+      <button class="layui-btn "   lay-submit="" lay-filter="formDemo">立即提交</button>
+      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+  </div>
+</form>
+</div>
+ 
+  
+ <!--模仿bootstrap的模态框（修改）-->
+ <div id="updateModel"   style="display: none;"  class="layui-row">
+ 		 <form class="layui-form" action="" method="get" id="updateUsersForm">
+  <div class="layui-form-item">
+    <label class="layui-form-label">姓名</label>
+    <div class="layui-input-inline">
+        <input type="hidden" name="id" id="id"/>
+      <input type="text" id = "username1" name="username" required  lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">城市</label>
+    <div class="layui-input-inline">
+      <select name="city" lay-verify="required" id="city1">
+        <option value=""></option>
+        <option value="0">北京</option>
+        <option value="1">上海</option>
+        <option value="2">广州</option>
+        <option value="3">深圳</option>
+        <option value="4">杭州</option>
+      </select>
+    </div>
+    </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">邮箱</label>
+    <div class="layui-input-inline">
+     <input type="text" id="email1"  name="email" required  lay-verify="email" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">状态</label>
+    <div class="layui-input-block">
+      <input type="checkbox" id="switch1" name="state"  lay-skin="switch" lay-text="开启|禁用">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">单选框</label>
+    <div class="layui-input-block" id= "IsPurchased1">
+      <input type="radio" name="sex1"  value="1" title="男">
+      <input type="radio" name="sex1" value="0" title="女" >
+    </div>
+  </div>
+   <div class="layui-form-item">
+      <label class="layui-form-label">头像</label>
+    <div class="layui-input-block">
+    <button type="button" class="layui-btn" id="test3"><i class="layui-icon"></i>上传文件</button>
+    </div>
+  </div>
+  <div class="layui-form-item layui-form-text">
+    <label class="layui-form-label">签名</label>
+    <div class="layui-input-block">
+     <textarea class="layui-textarea"name="sign" id="sign1" style="display: none" placeholder="请输入内容" >  </textarea>
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <div class="layui-input-block">
+      <button class="layui-btn" lay-submit lay-filter="updateformDemo">立即提交</button>
+    </div>
+  </div>
+</form>
+ </div>
+ 
+<script type="text/html" id="toolbarDemo">
+	<strong>搜索:   </strong><div class="layui-inline"><input class="layui-input" name="id" id="demoReload" autocomplete="off" placeholder="请输入用户名"> </div>
+	<button class="layui-btn layui-btn-sm"  lay-event="reload">搜索</button>
+    <button class="layui-btn layui-btn-sm"  onclick="openModak()">添加</button>
+    <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
+    <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+ 
+   
+</script>
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+  <a class="layui-btn layui-btn-xs" lay-event="edit" >编辑</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+	<script src="../myjs/total.js"></script>
+	 <script src="../myjs/tableMerge.js"></script>
+	  <script src="../myjs/mycontabs.js"></script>
+    <script src="../myjs/soc.js"></script>
+</div>
+</body>
+</html>

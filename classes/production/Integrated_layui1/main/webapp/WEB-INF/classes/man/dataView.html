@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../lib/layui/css/layui.css">
+<script src="../lib/jQuery/jquery.min.js"></script>
+<script src="../lib/layui/layui.js" charset="utf-8"></script>
+<script type="text/javascript" src="../plugins/echarts/echarts.min.js"></script>
+</head>
+<body style="height: 100%; width: 99%;">
+  <div class="layui-row layui-col-space10">
+    <div class="layui-col-md4 ">
+      <div class="grid-demo grid-demo-bg1 layui-bg-green">
+      <div class="layui-card">
+			<div class="layui-card-header" style="padding : 0px ;margin :0px;">卡片面板</div>
+			  <div class="layui-card-body" style="padding : 0px ;margin :0px;">
+			   <div class="layui-carousel" id="test1" lay-filter="carofilter" style="font-size:larger">
+		        <div carousel-item>
+		            <div><img  src="../images/4AA6A74F2E1B14F1EAB12143B693439B.png"></div>
+		            <div style="background-color:green">条目2</div>
+		            <div style="background-color:blue">条目3</div>
+		            <div style="background-color:mediumorchid">条目4</div>
+		            <div style="background-color:orange">条目5</div>
+		        </div>
+		       </div> 
+			  </div>
+			</div>
+      </div>
+    </div>
+    <div class="layui-col-md4">
+      <div class="grid-demo layui-bg-green">
+      	<div class="layui-card">
+			<div class="layui-card-header" >卡片面板</div>
+			  <div class="layui-card-body" >
+				  <div class="layui-row layui-col-space10">
+				    <div class="layui-col-xs6">
+				     <a   href=""><div class="grid-demo grid-demo-bg1" style="background-color: #F2F2F2; padding: 10px; line-height: 30px;" >
+				     <h6 style="color: gray">待审评论</h6>
+				     <h1 style="color: green" class="stat-text">0</h1>
+				     </div></a>
+				    </div>
+				    <div class="layui-col-xs6">
+				      <a   href=""><div class="grid-demo grid-demo-bg1" style="background-color: #F2F2F2; padding: 10px; line-height: 30px;" >
+				     <h6 style="color: gray">待审帖子</h6>
+				     <h1 style="color: green">66</h1>
+				     </div></a>
+				    </div>
+				  </div>
+				  <div class="layui-row layui-col-space10">
+				    <div class="layui-col-xs6 ">
+				      <a   href=""> <div class="grid-demo grid-demo-bg1" style="background-color: #F2F2F2; padding: 10px; line-height: 30px;" >
+				     <h6 style="color: gray">待审商品</h6>
+				     <h1 style="color: green">66</h1>
+				     </div></a>
+				    </div>
+				    <div class="layui-col-xs6">
+				    <a   href="">   <div class="grid-demo grid-demo-bg1" style="background-color: #F2F2F2; padding: 10px; line-height: 30px;" >
+				     <h6 style="color: gray">待发货</h6>
+				     <h1 style="color: green">66</h1>
+				     </div></a>
+				    </div>
+				    <div class="layui-col-xs6">
+				    <a   href="">   <div class="grid-demo grid-demo-bg1" style="background-color: #F2F2F2; padding: 10px; line-height: 30px;" >
+				     <h6 style="color: gray">待审评论</h6>
+				     <h1 style="color: green">66</h1>
+				     </div></a>
+				    </div>
+				     <div class="layui-col-xs6">
+				    <a   href="">   <div class="grid-demo grid-demo-bg1" style="background-color: #F2F2F2; padding: 10px; line-height: 30px;" >
+				     <h6 style="color: gray">待审评论</h6>
+				     <h1 style="color: green">66</h1>
+				     </div></a>
+				    </div>
+				  </div>
+			  </div>
+			</div>
+      </div>
+    </div>
+    <div class="layui-col-md4">
+      <div class="grid-demo grid-demo-bg1 layui-bg-green">
+      	<div class="layui-card">
+				  <div class="layui-card-header">版本信息</div>
+					  <div class="layui-card-body">
+					    <table class="layui-table">
+						  <tbody>
+						    <tr>
+						      <td>当前版本</td>
+						      <td>v1.2.1 std &nbsp; &nbsp;<a href="#" style="color: blue">更新日志</a></td>
+						    </tr>
+						    <tr>
+						      <td>基于框架</td>
+						      <td>layui-v2.4.5</td>
+						    </tr>
+						    <tr>
+						      <td>主要特色</td>
+						      <td>零门槛 / 响应式 / 清爽 / 极简</td>
+						    </tr>
+						    <tr>
+						      <td>主要特色</td>
+						      <td>零门槛 / 响应式 / 清爽 / 极简</td>
+						    </tr>
+						    <tr>
+						      <td>主要特色</td>
+						      <td>零门槛 / 响应式 / 清爽 / 极简</td>
+						    </tr>
+						    <tr>
+						      <td>获取渠道</td>
+						      <td>
+						      <button class="layui-btn">获取授权</button>
+						      <button class="layui-btn">立即下载</button>
+						      </td>
+						    </tr>
+						  </tbody>
+						</table>
+					  </div>
+			</div>
+      </div>
+    </div>
+  </div>
+   
+  <div class="layui-row layui-col-space10">
+    <div class="layui-col-md8">
+      <div class="grid-demo grid-demo-bg1 layui-bg-green">
+      		<div class="layui-card"  >
+				  <div class="layui-card-header" style="padding : 0px ;margin :0px;">卡片面板</div>
+					  <div class="layui-card-body" style="padding : 0px ;margin :0px;">
+					   <div class="layui-col-md12">
+							<div id="main" style="width: 100%;height:300px;"></div>
+					</div>
+					  </div>
+			</div>
+      </div>
+    </div>
+    <div class="layui-col-md4">
+      <div class="layui-row grid-demo">
+        <div class="layui-col-md12">
+          <div class="grid-demo grid-demo-bg1 layui-bg-orange">
+          	<div class="layui-card">
+				  <div class="layui-card-header">实时监控</div>
+					  <div class="layui-card-body">
+					  <h3 style="color: black;">CPU使用率</h3>
+					  <br/>
+					  <div class="layui-progress layui-progress-big" lay-showPercent="true">
+						  <div class="layui-progress-bar" lay-percent="80%"></div>
+						</div>
+						<br/>
+						<h3 style="color: black;">内存占用率</h3>
+						  <br/>
+					   <div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="demo">
+						  <div class="layui-progress-bar layui-bg-red" lay-percent="0%"></div>
+						</div>
+						<div class="site-demo-button" style="margin-top: 20px; margin-bottom: 0;">
+						  <button class="layui-btn site-demo-active" data-type="setPercent">设置50%</button>
+						  <button class="layui-btn site-demo-active" data-type="loading">模拟loading</button>
+						</div>
+					  </div>
+			</div>
+          </div>
+        </div>
+        <div class="layui-col-md12">
+          <div class="grid-demo grid-demo-bg3 layui-bg-blue">
+          	<div class="layui-card">
+				  <div class="layui-card-header">效果报告</div>
+					  <div class="layui-card-body">
+					   <div class="layui-progress layui-progress-big" lay-showPercent="yes">
+						  <div class="layui-progress-bar layui-bg-green" lay-percent="50%"></div>
+						</div>
+						<br/>
+						<div class="layui-progress layui-progress-big" lay-showPercent="yes">
+						  <div class="layui-progress-bar layui-bg-orange" lay-percent="80%"></div>
+						</div>
+					  </div>
+			</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="layui-row layui-col-space10">
+    <div class="layui-col-md8">
+      <div class="grid-demo grid-demo-bg1">
+      <div class="layui-card">
+				  <div class="layui-card-header"style="padding : 0px ;margin :0px;">卡片面板</div>
+					  <div class="layui-card-body" style="padding : 0px ;margin :0px;">
+					    <iframe  scrolling="auto" frameborder="0" src="soc.html" style="width:100%; height:605px";></iframe>
+					  </div>
+			</div>
+      </div>
+    </div>
+    <div class="layui-col-md4">
+      <div class="layui-row grid-demo">
+        <div class="layui-col-md12">
+          <div class="grid-demo grid-demo-bg1 layui-bg-orange">
+          	<div class="layui-card">
+				  <div class="layui-card-header">卡片面板</div>
+					  <div class="layui-card-body">
+					    卡片式面板面板通常用于非白色背景色的主体内<br>
+					    从而映衬出边框投影
+					  </div>
+			</div>
+          </div>
+        </div>
+        <div class="layui-col-md12">
+          <div class="grid-demo grid-demo-bg3 layui-bg-blue">
+          	<div class="layui-card">
+				  <div class="layui-card-header">作者心语 </div>
+					  <div class="layui-card-body">
+					    <p style="color: black">
+&emsp;&emsp;一直以来，layui 秉承无偿开源的初心，虔诚致力于服务各层次前后端 Web 开
+发者，在商业横飞的当今时代，这一信念从未动摇。即便身单力薄，仍然重拾决
+心，埋头造轮，以尽可能地填补产品本身的缺口。
+<br>
+<br>
+&emsp;&emsp;在过去的一段的时间，我一直在寻求持久之道，已维持你眼前所见的一切。而
+<a href="#" style="color: blue">layuiAdmin</a> 是我们尝试解决的手段之一。我相信真正有爱于 layui 生态的你，定然
+不会错过这一拥抱吧。
+<br>
+<br>
+		&emsp;&emsp;&emsp;&emsp;子曰：君子不用防，小人防不住。请务必通过官网正规渠道，获得 layuiAdmin！
+<br>
+<br>
+		&emsp;&emsp;&emsp;&emsp;—— 贤心（<a href="#" style="color: blue">layui.com</a>）
+					    </p>
+					  </div>
+			</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ 
+
+<script src="../myjs/dataView.js"></script>
+<script  src="../myjs/index.js"></script>
+<!-- <script  src="../myjs/home.js"></script> -->
+</body>
+</html>

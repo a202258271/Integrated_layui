@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.it.dao.NewsDao" >
+  <resultMap id="BaseResultMap" type="com.it.bean.NewsEntity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="classify" property="classify" jdbcType="VARCHAR" />
+    <result column="label" property="label" jdbcType="VARCHAR" />
+    <result column="reading" property="reading" jdbcType="INTEGER" />
+    <result column="promulgator" property="promulgator" jdbcType="VARCHAR" />
+    <result column="stick" property="stick" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="jointime" property="jointime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="String" >
+    delete from news
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.it.bean.NewsEntity" >
+    insert into news ( title, content, 
+      classify, label, reading, 
+      promulgator, stick, state, 
+      jointime)
+    values (#{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{classify,jdbcType=VARCHAR}, #{label,jdbcType=VARCHAR}, #{reading,jdbcType=INTEGER}, 
+      #{promulgator,jdbcType=VARCHAR}, #{stick,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, 
+      #{jointime,jdbcType=TIMESTAMP})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.it.bean.NewsEntity" >
+    update news
+    set title = #{title},
+      content = #{content},
+      classify = #{classify},
+      label = #{label},
+      stick = #{stick},
+      state = #{state}
+    where id = #{id}
+  </update>
+  
+  <select id="LoadNewsEntiry" resultType="Map">
+		select id,title,content,classify,label,reading,promulgator,stick,state,date_format(jointime,'%Y-%m-%d %h:%m:%s')jointime from news  where jointime like  '%${jointime}%' and title like  '%${title}%'  limit #{page} ,#{limit}
+	</select>
+  
+  <select id="TotalNewsCount" resultType="int">
+		select count(*) from news where jointime like  '%${jointime}%' and title like  '%${title}%'
+	</select>
+  
+  <update id="putawayUpdate" >
+  		update news set state = '1' where id = #{id}
+  </update>
+  
+  <update id="soldOut" >
+  		update news set state = '0' where id = #{id}
+  </update>
+  
+  <update id="updateStick" parameterType="com.it.bean.NewsEntity" >
+  		update news set stick = #{stick}  where id = #{id}
+  </update>
+</mapper>

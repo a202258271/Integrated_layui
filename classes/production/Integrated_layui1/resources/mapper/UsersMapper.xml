@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.it.dao.UsersDao">
+	<select id="LoadUsersEntiry" resultType="Map">
+		select id,username,email,experience,sex,logins,sign,city,ip,date_format(jointime,'%Y-%m-%d %h:%m:%s')jointime,state from users  where username like '%${username}%'   limit #{page} ,#{limit}
+	</select>
+	
+	<select id="TotalUsersCount" resultType="int">
+		select count(*) from users where username like  '%${username}%'
+	</select>
+	
+	<insert id="insert" parameterType="com.it.bean.UsersEntity">
+		insert into users(username,email,experience,sex,logins,sign,city,ip,jointime,state)  values (#{username},#{email},#{experience},#{sex},#{logins},#{sign},#{city},#{ip},#{jointime},#{state})
+	</insert>
+	<delete id="delete">
+		delete from users  where id = #{id}
+	</delete>
+	
+	<update id="update" parameterType="com.it.bean.UsersEntity">
+		update users set username = #{username},city = #{city} , email = #{email} , sex =#{sex} , sign = #{sign} ,state = #{state} where id = #{id}
+	</update>
+	
+	<update id="updateState" parameterType="com.it.bean.UsersEntity" > 
+		update users set state = #{state} where id = #{id}
+	</update>
+</mapper>

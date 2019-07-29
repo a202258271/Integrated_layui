@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.it.dao.WorkOrderDao" >
+  <resultMap id="BaseResultMap" type="com.it.bean.WorkOrderEntity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="nature" property="nature" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="schedule" property="schedule" jdbcType="VARCHAR" />
+    <result column="submitter" property="submitter" jdbcType="VARCHAR" />
+    <result column="accept" property="accept" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, nature, title, schedule, submitter, accept, state
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from workorder
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from workorder
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+ 
+  <insert id="insert" parameterType="com.it.bean.WorkOrderEntity" >
+    insert into workorder (id, nature, title, 
+      schedule, submitter, accept, 
+      state)
+    values (#{id,jdbcType=INTEGER}, #{nature,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{schedule,jdbcType=VARCHAR}, #{submitter,jdbcType=VARCHAR}, #{accept,jdbcType=VARCHAR}, 
+      #{state,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.it.bean.WorkOrderEntity" >
+    insert into workorder
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="nature != null" >
+        nature,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="schedule != null" >
+        schedule,
+      </if>
+      <if test="submitter != null" >
+        submitter,
+      </if>
+      <if test="accept != null" >
+        accept,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="nature != null" >
+        #{nature,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="schedule != null" >
+        #{schedule,jdbcType=VARCHAR},
+      </if>
+      <if test="submitter != null" >
+        #{submitter,jdbcType=VARCHAR},
+      </if>
+      <if test="accept != null" >
+        #{accept,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update workorder
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.nature != null" >
+        nature = #{record.nature,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.schedule != null" >
+        schedule = #{record.schedule,jdbcType=VARCHAR},
+      </if>
+      <if test="record.submitter != null" >
+        submitter = #{record.submitter,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accept != null" >
+        accept = #{record.accept,jdbcType=VARCHAR},
+      </if>
+      <if test="record.state != null" >
+        state = #{record.state,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update workorder
+    set id = #{record.id,jdbcType=INTEGER},
+      nature = #{record.nature,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=VARCHAR},
+      schedule = #{record.schedule,jdbcType=VARCHAR},
+      submitter = #{record.submitter,jdbcType=VARCHAR},
+      accept = #{record.accept,jdbcType=VARCHAR},
+      state = #{record.state,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.it.bean.WorkOrderEntity" >
+    update workorder
+    <set >
+      <if test="nature != null" >
+        nature = #{nature,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="schedule != null" >
+        schedule = #{schedule,jdbcType=VARCHAR},
+      </if>
+      <if test="submitter != null" >
+        submitter = #{submitter,jdbcType=VARCHAR},
+      </if>
+      <if test="accept != null" >
+        accept = #{accept,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="update" parameterType="com.it.bean.WorkOrderEntity" >
+    update workorder
+    set nature = #{nature,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      schedule = #{schedule,jdbcType=VARCHAR},
+      accept = #{accept,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+  
+  <!-- 自定义方法 -->
+  
+  	<select id="LoadWorkOrderEntiry" resultType="Map">
+  			select id,nature,title,schedule,submitter,accept,state  from workorder  where id like '%${id}%'  and  title like '%${title}%' and  nature like '%${nature}%' and  accept like '%${accept}%'  or  accept is null  limit #{page} ,#{limit}
+  	</select>
+  	
+  	<select id="TotalWorkOrderCount" resultType="int">
+		select count(*) from workorder where id like '%${id}%'  and  title like '%${title}%' and  nature like '%${nature}%' and  accept like '%${accept}%'  or  accept is null
+	</select>
+  	
+</mapper>

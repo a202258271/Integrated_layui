@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>文章列表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../lib/layui/css/layui.css">
+    <link rel="stylesheet" href="../mycss/scroll-bar.css">
+    <link rel="stylesheet" href="../mycss/sub-page.css">
+    <link rel="stylesheet" href="../mycss/font.css">
+    <link rel="stylesheet" href="../mycss/nprogress.css">
+</head>
+<body>
+<div class="ok-body" style="width: 98%">
+    <!--面包屑导航区域-->
+    <div class="ok-body-breadcrumb">
+            <span class="layui-breadcrumb">
+                <a><cite>首页</cite></a>
+                <a><cite>解决方案</cite></a>
+                <a><cite>新闻发布</cite></a>
+            </span>
+        <a class="layui-btn layui-btn-sm" href="javascript:location.replace(location.href);" title="刷新">
+            <i class="layui-icon layui-icon-refresh"></i>
+        </a>
+    </div>
+    <!--模糊搜索区域-->
+    <div class="layui-row ">
+     <div class="layui-form layui-col-md12 ok-search">
+            <!-- <input class="layui-input" placeholder="发表日期" autocomplete="off" id="jointime"> -->
+            <input class="layui-input" placeholder="请输入标题" autocomplete="off" name="title">
+            <button class="layui-btn" lay-submit lay-filter="search">
+                <i class="layui-icon layui-icon-search"></i>
+            </button>
+            </div>
+    </div>
+    <!--工具栏-->
+    <okToolbar>
+        <button class="layui-btn layui-btn-normal" id="batchEnabled">
+            <i class="iconfont icon-shangsheng"></i>批量上架
+        </button>
+        <button class="layui-btn layui-btn-warm" id="batchDisabled">
+            <i class="iconfont icon-web-icon-"></i>批量下架
+        </button>
+        <button class="layui-btn layui-btn-danger" id="batchDel">
+            <i class="layui-icon layui-icon-delete"></i>批量删除
+        </button>
+        <button class="layui-btn" id="addUser">
+            <i class="layui-icon">&#xe61f;</i>添加文章
+        </button>
+        <span>共有数据：<i id="countNum"></i> 条</span>
+    </okToolbar>
+    <!--数据表格-->
+    <table class="layui-hide" id="tableId" lay-filter="tableFilter"></table>
+</div>
+
+
+<div class="ok-body" id = "motaikunag"  style="display: none;">
+    <!--面包屑导航区域-->
+    <div class="ok-body-breadcrumb">
+            <span class="layui-breadcrumb">
+                <a><cite>首页</cite></a>
+                <a><cite>常用页面</cite></a>
+                <a><cite>用户列表</cite></a>
+				<a><cite>添加文章</cite></a>
+            </span>
+        <a class="layui-btn layui-btn-sm" href="javascript:location.replace(location.href);" title="刷新">
+            <i class="layui-icon layui-icon-refresh"></i>
+        </a>
+    </div>
+    <!--form表单-->
+    <form class="layui-form layui-form-pane ok-form" id="updateNewsForm">
+        <div class="layui-form-item">
+            <label class="layui-form-label">标题</label>
+            <div class="layui-input-block">
+            <input type="hidden" id="id" name="id">
+                <input type="text" name="title" id="title" placeholder="请输入文章标题" autocomplete="off" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">分类</label>
+            <div class="layui-input-block">
+                <select name="classify" id="classify">
+                    <option value="0">公告</option>
+                    <option value="1">言情</option>
+                    <option value="2">都市</option>
+                    <option value="3">修仙</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">标签</label>
+            <div class="layui-input-block">
+                <input type="text" name="label"  id="label"  placeholder="请输入文章标签" autocomplete="off" class="layui-input" lay-verify="required">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="state" id="switch"  lay-skin="switch" lay-text="上架|下架" checked >
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">置顶</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="stick" id="stick" lay-skin="switch" lay-text="是|否" >
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">内容</label>
+            <div class="layui-input-block">
+                <textarea name="content"  id="content" placeholder="请输入文章内容" class="layui-textarea" lay-verify="required"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="updateNews">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--js逻辑-->
+	<script src="../lib/layui/layui.js"></script>
+<script src="../myjs/nprogress.js"></script>
+	<script src="../myjs/total.js"></script>
+<script>
+    // 进度条加载提示
+    NProgress.start();
+    window.onload = function () {
+        NProgress.done();
+    }
+    // layui相关
+    layui.use(['element', 'table', 'form', 'jquery', 'laydate'], function () {
+        var element = layui.element;
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.jquery;
+        var laydate = layui.laydate;
+
+        laydate.render({
+            elem: '#jointime',
+            type: "datetime"
+        });
+
+
+        //模糊搜索
+        form.on('submit(search)', function(data){
+      	   /* layer.msg(JSON.stringify(data.field));*///表格数据序列化
+      	    var formData = data.field;
+      	    /* var jointime = formData.jointime */
+      	   var title = formData.title;
+      	    table.reload('tableReload',{
+      			method:'post',
+      			where:{
+      			/* 	jointime:jointime, */
+      				title:title,
+      	    	} 
+      		});
+      });
+        
+        
+      //监听提交
+        form.on('submit(updateNews)', function(data){
+            layer.msg(JSON.stringify(data.field));//表格数据序列化
+            var formData = data.field;
+            if(formData.state == undefined  ){
+            	formData.state ='0';
+            }else if(formData.state  == 0){
+            	formData.state ='1';
+            }
+            if(formData.stick == undefined  ){
+            	formData.stick ='0';
+            }else if(formData.stick  == 0){
+            	formData.stick ='1';
+            }
+            var title = formData.title,
+            id=formData.id,
+            classify = formData.classify,
+            label=formData.label,
+            stick=formData.stick,
+            content=formData.content,
+            state = formData.state;
+        	 $.ajax({
+        		 url:URL+'/news/updateNews.do', 
+        		 type:'POST', 
+        		 dataType:'json', 
+        		 data:{
+        			 "id":id,
+        			 "title":title,
+           			 "classify":classify,
+           			 "label":label,
+           			 "stick":stick,
+           			 "content":content,
+           			 "state":state
+        			 }, 
+        			 success:function (resultJSONObject) { 
+        				 if(resultJSONObject.status == "00"){
+        		                index = layer.msg(resultJSONObject.message, {
+        		                    icon: 6
+        		                    ,shade: 0.6,
+        		                    time: 2000
+        		                },function () {
+        		                	layer.closeAll('page');
+        	                        table.reload('tableReload');//数据表格重载
+        	                        $("#updateNewsForm")[0].reset();//清空表单
+        		                });
+        		            }else{
+        		                layer.msg(resultJSONObject.message, {
+        		                    icon: 9
+        		                    ,shade: 0.6,
+        		                    time: 2000
+        		                });
+        		            }
+        					 } 
+        	 		}) ;
+        	 		            return false;//false：阻止表单跳转  true：表单跳转
+        	});
+        
+        
+        
+        form.on('switch(switchTest)', function(data){	
+        	var val = this.value.split("=");
+        	 var i ;
+        	if(val[0]  ==1){
+        		i=0;
+        	}else{
+        		i=1;
+        	}
+        	//短信通知状态更新
+        	$.ajax({
+        	  type: 'POST',
+        	  url: URL+'/news/updateStick.do',
+        	  data: {"id":val[1],"stick":i},
+        	  dataType:'json', 
+        	  beforeSend:function(){
+        		  layer.msg('正在切换中，请稍候',{icon: 16,time:1000,shade:0.8});     
+        		  },
+        	 success: function(resultJSONObject){  
+        	  if(resultJSONObject.status == "00"){ 
+        		  setTimeout(function(){layer.msg(resultJSONObject.message);},2000);  
+        		  table.reload('tableReload');//数据表格重载
+        		  }else{
+        			  console.log(resultJSONObject);layer.msg(resultJSONObject.message);
+        			  }
+        		  },		  
+        		});	
+        	});
+        
+        
+        table.render({
+            elem: '#tableId',
+            url: URL+'/news/queryAll.do',
+            limit: 10,
+            id: 'tableReload',
+            page: true,
+            even: true,
+            cols: [[
+                {type: 'checkbox'},
+                {field: 'id', title: 'ID', width: 80, sort: true},
+                {field: 'title', title: '标题', width: 350},
+                {field: 'content', title: '内容', width: 250/*,  templet: '#urlTpl' */},
+                {field: 'reading', title: '阅读量', width: 80},
+                {field: 'promulgator', title: '发布者', width: 100},
+                {field: 'stick', title: '置顶', width: 100,templet: function(res){
+              	  if(res.stick == 1){
+              		   return '<input type="checkbox" checked="" name="open" value = '+res.stick+"="+res.id+' lay-skin="switch"     lay-filter="switchTest" lay-text="是|否">'
+              	  }else{
+              		return '<input type="checkbox"  name="open" value = '+res.stick+"="+res.id+' lay-skin="switch"   lay-filter="switchTest" lay-text="是|否">'
+              	  }
+                }},
+                {field: 'state', title: '状态', width: 100, templet: '#stateTpl'},
+                {title: '操作', width: 200, templet: '#operationTpl', align: 'center'}
+            ]],
+            done: function (res, curr, count) {
+                $("#countNum").text(count);
+            }
+        });
+
+        table.on('tool(tableFilter)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+            if (layEvent === 'edit') {
+            	
+            	 $("#updateNewsForm")[0].reset();//清空表单
+             	$("#id").val(data.id);
+                 $("#title").val(data.title);
+                 $("#classify").val(data.classify);
+                 $("#label").val(data.label);
+                 if(data.state == 1){
+                 	$("#switch").val(data.state).attr("checked",true); 
+                 }else{
+                 	$("#switch").val(data.state).attr("checked",false); 
+                 }
+                 if(data.stick == 1){
+                  	$("#stick").val(data.stick).attr("checked",true); 
+                  }else{
+                  	$("#stick").val(data.stick).attr("checked",false); 
+                  }
+                 $("#content").val(data.content);
+            	
+            	layer.open({
+                    type:1,//类型
+                    maxmin: true,
+                    area:['90%', '90%'],//定义宽和高
+                    title:'修改用户',//题目
+                    shadeClose:false,//点击遮罩层关闭
+                    content: $('#motaikunag'),//打开的内容
+                    anim:4
+                });
+            } else if (layEvent === 'del') {
+                layer.confirm("确定要删除吗？", {skin: 'layui-layer-lan', icon: 2, title: '提示', anim: 6}, function () {
+                	 //向服务端发送删除指令，在这里可以使用Ajax异步
+                    $.post(URL+"/news/delete.do", { id: data.id }, function (resultJSONObject) {
+                        if (resultJSONObject.status == "00") {//删除成功，刷新当前页表格
+                            layer.msg(resultJSONObject.message, { icon: 1, time: 1500 }, function (index) {
+                                obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                                layer.close(index);
+                                table.reload('tableReload');//数据表格重载
+                                // $(".layui-laypage-btn").click();//点击分页刷新当前页
+                            });
+                        }else{  //删除失败
+                            layer.alert(resultJSONObject.message, { icon: 2},function () {
+                                layer.close(index);
+                                // $(".layui-laypage-btn").click();
+                                window.location.reload();
+                            });
+                        }
+                    });
+                });
+            }
+        });
+
+        $("#batchEnabled").click(function () {
+            layer.confirm("确定要批量上架吗？", {skin: 'layui-layer-lan', icon: 3, title: '提示', anim: 1}, function () {
+                var checkStatus = table.checkStatus('tableReload');
+                var rows = checkStatus.data.length;
+                if (rows > 0) {
+                    var idsStr = "";
+                    for (var i = 0; i < checkStatus.data.length; i++) {
+                        idsStr += checkStatus.data[i].id + ',';
+                    }
+                    $.post(URL+"/news/putaway.do", { id: idsStr}, function (resultJSONObject) {
+                        if (resultJSONObject.status == "00") {//上架成功，刷新当前页表格
+                            layer.msg(resultJSONObject.message, { icon: 1, time: 1500 }, function () {
+                                table.reload('tableReload');//数据表格重载
+                                // $(".layui-laypage-btn").click();//点击分页刷新当前页
+                            });
+                        }else{  //删除失败
+                            layer.alert(resultJSONObject.message, { icon: 2},function (index) {
+                                layer.close(index);
+                                // $(".layui-laypage-btn").click();
+                                window.location.reload();
+                            });
+                        }
+                    });
+                } else {
+                    layer.msg('未选择有效数据', {
+                        offset: 't',
+                        anim: 6
+                    });
+                }
+            });
+        })
+
+        $("#batchDisabled").click(function () {
+            layer.confirm("确定要批量下架吗？", {skin: 'layui-layer-lan', icon: 3, title: '提示', anim: 2}, function () {
+                var checkStatus = table.checkStatus('tableReload');
+                var rows = checkStatus.data.length;
+                if (rows > 0) {
+                    var idsStr = "";
+                    for (var i = 0; i < checkStatus.data.length; i++) {
+                        idsStr += checkStatus.data[i].id + ',';
+                    }
+                    $.post(URL+"/news/soldOut .do", { id: idsStr}, function (resultJSONObject) {
+                        if (resultJSONObject.status == "00") {//下架成功，刷新当前页表格
+                            layer.msg(resultJSONObject.message, { icon: 1, time: 1500 }, function () {
+                                table.reload('tableReload');//数据表格重载
+                                // $(".layui-laypage-btn").click();//点击分页刷新当前页
+                            });
+                        }else{  //删除失败
+                            layer.alert(resultJSONObject.message, { icon: 2},function (index) {
+                                layer.close(index);
+                                // $(".layui-laypage-btn").click();
+                            });
+                        }
+                    });
+                } else {
+                    layer.msg('未选择有效数据', {
+                        offset: 't',
+                        anim: 6
+                    });
+                }
+            });
+        })
+
+        $("#batchDel").click(function () {
+            layer.confirm("确定要批量删除吗？", {skin: 'layui-layer-lan', icon: 2, title: '提示', anim: 6}, function () {
+                var checkStatus = table.checkStatus('tableReload');
+                var rows = checkStatus.data.length;
+                if (rows > 0) {
+                    var idsStr = "";
+                    for (var i = 0; i < checkStatus.data.length; i++) {
+                        idsStr += checkStatus.data[i].id + ',';
+                    }
+                    $.post(URL+"/news/delete.do", { id: idsStr}, function (resultJSONObject) {
+                        if (resultJSONObject.status == "00") {//删除成功，刷新当前页表格
+                            layer.msg(resultJSONObject.message, { icon: 1, time: 1500 }, function (index) {
+                                table.reload('tableReload');//数据表格重载
+                                // $(".layui-laypage-btn").click();//点击分页刷新当前页
+                            });
+                        }else{  //删除失败
+                            layer.alert(resultJSONObject.message, { icon: 2},function () {
+                                layer.close(index);
+                                // $(".layui-laypage-btn").click();
+                                window.location.reload();
+                            });
+                        }
+                    });
+                } else {
+                    layer.msg('未选择有效数据', {
+                        offset: 't',
+                        anim: 6
+                    });
+                }
+            });
+        })
+
+ 
+        
+        $("#addUser").click(function () {
+            layer.open({
+                title: '添加文章',
+                type: 2,
+                shade: false,
+                maxmin: true,
+                shade: 0.5,
+                anim: 4,
+                area: ['90%', '90%'],
+                content: 'article-add.html',
+                zIndex: layer.zIndex,
+                // skin: 'layui-layer-molv',
+                end: function () {
+                    $(".layui-laypage-btn")[0].click();
+                }
+            });
+        })
+    })
+</script>
+<!--模板-->
+<!--  <script type="text/html" id="urlTpl">
+    <a href="{{d.url}}" target="_blank">{{d.url}}</a>
+</script> -->
+<script type="text/html" id="topTpl">
+    <input type="checkbox" name="stick" value="{{d.stick}}" lay-skin="switch" lay-text="是|否"  lay-filter="switchTest"   {{ d.stick== 1 ? 'checked' : ''}}>
+</script>
+<script type="text/html" id="stateTpl">
+    <input type="checkbox" name="state" value="{{d.state}}" lay-skin="switch" lay-text="上架|下架" {{ d.state== 1 ? 'checked' : ''}} disabled>
+</script>
+<script type="text/html" id="operationTpl">
+    <a href="javascript:;" title="编辑" lay-event="edit"><i class="layui-icon">&#xe642;</i></a>
+    <a href="javascript:;" title="删除" lay-event="del"><i class="layui-icon">&#xe640;</i></a>
+</script>
+</body>
+</html>
